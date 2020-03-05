@@ -38,15 +38,26 @@ video.addEventListener('play', () => {
         faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
 
         if (detections.length != 0) {
-
-            console.log(detections)
-            canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+             
             var img = canvas.toDataURL("image/png");
-            canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
+            // this.sendToApi(img);
             console.log("tem face")
+ 
         } else{
             console.log(" nao tem face")
         }
 
     }, 1000)
 })
+
+function sendToApi(img){
+         fetch('https://api.github.com/gists', {
+          method: 'post',
+          body: JSON.stringify({'img64': img})
+        }).then(function(response) {
+          return response.json();
+        }).then(function(data) {
+       
+        });
+      
+}
