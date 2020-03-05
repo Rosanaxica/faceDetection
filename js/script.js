@@ -25,9 +25,10 @@ video.addEventListener('play', () => {
     faceapi.matchDimensions(canvas, displaySize)
 
     setInterval(async () => {
+
         const detections = await faceapi.detectAllFaces(video,
-        new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks()
-        .withFaceExpressions()
+            new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks()
+            .withFaceExpressions()
 
         const resizedDetections = faceapi.resizeResults(detections, displaySize)
 
@@ -36,5 +37,16 @@ video.addEventListener('play', () => {
         faceapi.draw.drawDetections(canvas, resizedDetections)
         faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
 
-    }, 100)
+        if (detections.length != 0) {
+
+            console.log(detections)
+            canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+            var img = canvas.toDataURL("image/png");
+            canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
+            console.log("tem face")
+        } else{
+            console.log(" nao tem face")
+        }
+
+    }, 1000)
 })
